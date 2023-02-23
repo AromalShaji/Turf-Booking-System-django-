@@ -1,0 +1,226 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        {% block title%}
+        About
+        {% endblock %}
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css.map' %}">
+    <link rel="stylesheet" href="{% static 'css/style.scss' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+</head>
+
+<body style="background-color:rgb(15, 17, 16);">
+    {% load static %}
+
+    <!-- header section strats -->
+    <header class="header_section">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+                <a class="navbar-brand">
+                    <span class="glow">
+                        Turf Near you
+                    </span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class=""> </span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav  mx-auto ">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about_section layout_padding">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Tournament's</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{dis}}</a>
+                        </li>
+                    </ul>
+                    <div class="user_option">
+                        <form method="post" action="{% url 'profile' %}">
+                            {% csrf_token %}
+                            {% if 'id' in request.session %}
+                            <a href="" class="user_link">
+                                <button class="fa fa-user btn btn-secondary" aria-hidden="true"
+                                    href="{% url 'profile' %}"></button>
+                            </a>
+                            {% endif %}
+                        </form>
+                        {% if 'id' in request.session %}
+                        <a href="{% url 'lgout' %}" class="order_online">Logout</a>
+                        {% else %}
+                        <a href="{% url 'login' %}" class="order_online">Login/Signup</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- end header section -->
+
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">{{details.turf_name}}</h3>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-6">
+                        <div class="white-box text-center"><img src="{{details.turf_img.url}}" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-6">
+
+                        <h4 class="box-title mt-5">{{details.turf_phone}}</h4>
+                        <p>{{details.turf_desc}}</p>
+                        <h2 class="mt-5">
+                            Turf Rate : {{details.turf_rate}}<br><small class="text-success">(36%off)</small>
+                        </h2>
+                        <form method="post" action="{% url 'turf_booking_details' details.id %}">
+                            {% csrf_token %}
+                            {% if 'team' in dis.role %}
+                            <button class="btn btn-primary btn-rounded" type="submit">Book Now</button>
+                            {% endif %}
+                        </form>
+                        <br>
+                        {% if 'team' in dis.role %}
+                        <form method="post" action="{% url 'rate' details.id %}">
+                            {% csrf_token %}
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="text">5 stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" />
+                                <label for="star4" title="text">4 stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="text">3 stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="text">2 stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="text">1 star</label>
+                            </div>
+                            <button class="bi bi-star btn btn-secondary" aria-hidden="true"
+                                    href="{% url 'rate' details.id %}"  value="Rate">Rate</button>
+                        </form>
+                        {% endif %}
+                        <br>
+                        <h3 class="box-title mt-5">Key Features</h3>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-check text-success">{{details.turf_feature}}</i></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'footerbar.html' %}
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+</body>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .rate {
+        float: left;
+        height: 46px;
+        padding: 0 10px;
+    }
+
+    .rate:not(:checked)>input {
+        position: absolute;
+        top: -9999px;
+    }
+
+    .rate:not(:checked)>label {
+        float: right;
+        width: 1em;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 30px;
+        color: #ccc;
+    }
+
+    .rate:not(:checked)>label:before {
+        content: '★ ';
+    }
+
+    .rate>input:checked~label {
+        color: #ffc700;
+    }
+
+    .rate:not(:checked)>label:hover,
+    .rate:not(:checked)>label:hover~label {
+        color: #deb217;
+    }
+
+    .rate>input:checked+label:hover,
+    .rate>input:checked+label:hover~label,
+    .rate>input:checked~label:hover,
+    .rate>input:checked~label:hover~label,
+    .rate>label:hover~input:checked~label {
+        color: #c59b08;
+    }
+
+    /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+    body {
+        background-color: #edf1f5;
+        margin-top: 20px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid transparent;
+        border-radius: 0;
+    }
+
+    .card .card-subtitle {
+        font-weight: 300;
+        margin-bottom: 10px;
+        color: #8898aa;
+    }
+
+    .table-product.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f3f8fa !important
+    }
+
+    .table-product td {
+        border-top: 0px solid #dee2e6 !important;
+        color: #728299 !important;
+    }
+</style>
+
+</html>

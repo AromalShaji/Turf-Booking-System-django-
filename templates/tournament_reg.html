@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+
+{% block title%}
+Booking
+{% endblock %}
+
+{% block content%}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Turf Register</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.featchk').click(function () {
+                var txt = "";
+                $('.featchk:checked').each(function () {
+                    txt += $(this).val() + ","
+                });
+                txt = txt.substring(0, txt.length - 1);
+                $('#txtvalues').val(txt);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <form class="signup-form" method="post" action="{%url 'tournament_reg' id %}">
+
+        <!-- form header -->
+        <div class="form-header">
+            <h1>Tournament Register</h1>
+        </div>
+
+        <!-- form body -->
+
+        {% csrf_token %}
+        <div class="form-body">
+            <!-- Name & Location -->
+            <div class="horizontal-group">
+                <div class="form-group left">
+                    <label for="Tournamentname" class="label-title">Tournament Name *</label>
+                    <input type="text" id="tournamentname" class="form-input" name="tournamentname"
+                        placeholder="enter tournament name" required="required" />
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="form-group">
+                    <label for="Tournamentdate">Tournament Date *</label>
+                    <input type="date" id="tournamentdate" name="tournamentdate" required="required">
+                </div>
+            </div>
+            <div class="form-group left">
+                <label for="description" class="label-title">Description</label>
+                <textarea class="form-input" rows="2" cols="30" name="tournamentdescription" style="height:auto"></textarea>
+            </div>
+            <!-- Rate of Turf -->
+            <br><br>
+            <div class="form-group left">
+                <label for="experience" class="label-title">Tournament Rate *</label><br>
+                <input type="range" min="600" max="2400" step="9" value="0" id="experience" name="tournamentrate"
+                    class="form-input" onChange="change();" style="height:28px;width:78%;padding:0;">
+                <span id="range-label" name="tournamentrate">₹ 600/-</span>
+            </div>
+            <!-- Uploaded Picture-->
+        </div>
+        <!-- form-footer -->
+        <div class="form-footer">
+            <button type="submit" class="btn">Register</button>
+        </div>
+    </form>
+
+    <!-- Script for range input label -->
+    <script>
+
+        var rangeLabel = document.getElementById("range-label");
+        var experience = document.getElementById("experience");
+
+        function change() {
+            rangeLabel.innerText = "₹ " + experience.value + "/-";
+        }
+
+    </script>
+
+    <style>
+        /*---------------------------------------*/
+        /* Font */
+        /*---------------------------------------*/
+
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+        /*---------------------------------------*/
+        /* Register Form */
+        /*---------------------------------------*/
+
+        body {
+            background: linear-gradient(to right, #78a7ba 0%, #385D6C 50%, #78a7ba 99%);
+        }
+
+        .signup-form {
+            font-family: "Roboto", sans-serif;
+            width: 650px;
+            margin: 50px auto;
+            background: linear-gradient(to right, #ffffff 0%, #fafafa 50%, #ffffff 99%);
+            border-radius: 10px;
+        }
+
+        /*---------------------------------------*/
+        /* Form Header */
+        /*---------------------------------------*/
+
+        .form-header {
+            background-color: #EFF0F1;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .form-header h1 {
+            font-size: 30px;
+            text-align: center;
+            color: #666;
+            padding: 20px 0;
+            border-bottom: 1px solid #cccccc;
+        }
+
+        /*---------------------------------------*/
+        /* Form Body */
+        /*---------------------------------------*/
+
+        .form-body {
+            padding: 10px 40px;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-body .label-title {
+            color: #1BBA93;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .form-body .form-input {
+            font-size: 17px;
+            box-sizing: border-box;
+            width: 100%;
+            height: 34px;
+            padding-left: 10px;
+            padding-right: 10px;
+            color: #333333;
+            text-align: left;
+            border: 1px solid #d6d6d6;
+            border-radius: 4px;
+            background: white;
+            outline: none;
+        }
+
+        .horizontal-group .left {
+            float: left;
+            width: 49%;
+        }
+
+        .horizontal-group .right {
+            float: right;
+            width: 49%;
+        }
+
+        input[type="file"] {
+            outline: none;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        #range-label {
+            width: 15%;
+            padding: 5px;
+            background-color: #1BBA93;
+            color: white;
+            border-radius: 5px;
+            font-size: 17px;
+            position: relative;
+            top: -8px;
+        }
+
+        ::-webkit-input-placeholder {
+            color: #d9d9d9;
+        }
+
+        /*---------------------------------------*/
+        /* Form Footer */
+        /*---------------------------------------*/
+
+        .signup-form .form-footer {
+            background-color: #EFF0F1;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            padding: 10px 40px;
+            text-align: right;
+            border-top: 1px solid #cccccc;
+            clear: both;
+        }
+
+        .form-footer span {
+            float: left;
+            margin-top: 10px;
+            color: #999;
+            font-style: italic;
+            font-weight: thin;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1BBA93;
+            font-size: 17px;
+            border: none;
+            border-radius: 5px;
+            color: #bcf5e7;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #169c7b;
+            color: white;
+        }
+    </style>
+
+</body>
+
+</html>
+{% endblock %}

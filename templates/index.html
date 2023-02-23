@@ -1,0 +1,440 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}
+Home
+{% endblock %}
+
+{% block content%}
+
+<div class="hero_area">
+
+    <div class="bg-box">
+        <img src="{% static '/images/background.jpg' %}" />
+    </div>
+    <section>
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg custom_nav-container ">
+                    <a class="navbar-brand">
+                        <span class="glow">
+                            Turf Near you
+                        </span>
+
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""> </span>
+                    </button>
+
+                    <div class="collapse navbar-collapse container-fluid col-sm-18" id="navbarSupportedContent">
+                        <ul class="navbar-nav  mx-auto container-fluid col-sm-20">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'index' %}">Home <span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about_section layout_padding">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#offer_section layout_padding-bottom">Tournament's</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">{{dis}}</a>
+                            </li>
+                            {% if 'organizer' in dis.role %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'turf_reg' id %}">ADD TURF</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'tournament_reg' id %}">ADD TOURNAMENT</a>
+                            </li>
+                            {% endif %}
+                            </li>
+                        </ul>
+                        <div class="user_option">
+                            <form method="post" action="{% url 'profile' %}">
+                                {% csrf_token %}
+                                {% if 'id' in request.session %}
+                                <a href="" class="user_link">
+                                    <button class="fa fa-user btn btn-secondary" aria-hidden="true"
+                                        href="{% url 'profile' %}"></button>
+                                </a>
+                                {% endif %}
+                            </form>
+
+                            {% if 'id' in request.session %}
+                            <a href="{% url 'lgout' %}" class="order_online">Logout</a>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="order_online">Login/Signup</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- end header section -->
+    </section>
+    <!-- slider section -->
+    <section class="slider_section ">
+        <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="container ">
+                        <div class="row">
+                            <div class="col-md-7 col-lg-6 ">
+                                <div class="detail-box">
+                                    <h1>
+                                        Turf Near You
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end slider section -->
+</div>
+
+<!-- Tournament section -->
+<br>
+<ul class="filters_menu">
+    <li>
+        <div class="heading_container heading_center">
+            <h2 style="color: aliceblue;">
+                Search
+            </h2>
+        </div>
+    </li>
+    <li class="active" data-filter="*">
+        <form method="post" action="{% url 'search' %}">
+            {% csrf_token %}
+            <div class="container h-100 ">
+                <div class="d-flex justify-content-center h-100">
+                    <div class="searchbar">
+                        <input class="search_input"  type="text" name="data" placeholder="Search..." />
+                        <button class="search_icon fa fa-search"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </li>
+</ul>
+
+<br><br><br>
+
+<section class="offer_section layout_padding-bottom" id="offer_section layout_padding-bottom">
+    <div class="offer_container">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2 class="glow">
+                    Tournament
+                </h2>
+            </div>
+            <div class="row grid">
+                {% for i in reg_tournament %}
+                <div class="col-sm-6 col-lg-4 ">
+                    <div class="box">
+                        <div class="img-box">
+                            <img src="{% static '/images/hero-bg2.jpg' %}" />
+                        </div>
+                        <div class="detail-box">
+                            <h5>
+                                {{i.Tournament_name}}
+                            </h5>
+                            <h6>
+                                <span>20%</span> Off
+                            </h6>
+                            <a href="{% url 'tournament_about' i.id%}">
+                                Register Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;"
+                                    xml:space="preserve">
+                                    <g>
+                                        <g>
+                                            <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                     c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                                        </g>
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                     C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                     c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                     C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                                        </g>
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                     c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                                        </g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- end Tournament section -->
+
+<br><br>
+<!-- Turf section -->
+
+<section class="food_section layout_padding-bottom" id="food_section layout_padding-bottom">
+    <div class="container">
+
+        <div class="heading_container heading_center">
+            <h2>
+                <b class="glow"> All Turf </b>
+            </h2>
+        </div>
+        <br><br>
+        <div class="filters-content text-center">
+            <div class="row grid">
+                {% for i in reg_turf %}
+                <div class="col-sm-6 col-lg-4 all pizza">
+                    <div class="box">
+                        <div>
+                            <div class="img-box">
+                                <img src="{{i.turf_img.url}}" alt="" />
+                            </div>
+                            <div class="detail-box">
+                                <h5>
+                                    {{i.turf_name}}
+                                </h5>
+                                <p>
+                                </p>
+                                <div class="options">
+                                    <h6>
+                                        {{i.turf_address}} <br>
+                                        {{i.turf_phone}}
+                                    </h6>
+                                    <form method="post">
+                                        <a href="{% url 'about' i.id %}">
+                                            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 456.029 456.029"
+                                                style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+                                                <g>
+                                                    <g>
+                                                        <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+                           c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+                                                    </g>
+                                                </g>
+                                                <g>
+                                                    <g>
+                                                        <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+                           C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+                           c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+                           C457.728,97.71,450.56,86.958,439.296,84.91z" />
+                                                    </g>
+                                                </g>
+                                                <g>
+                                                    <g>
+                                                        <path
+                                                            d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+                           c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+                                                    </g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                                <g>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- end Turf section -->
+<br><br><br>
+<!-- about section -->
+
+<section class="about_section layout_padding" id="about_section layout_padding">
+    <div class="container  ">
+
+        <div class="row">
+            <div class="col-md-6 ">
+                <div class="img-box">
+                    <img src="{% static '/images/ab.jpg'  %}" alt="" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="detail-box">
+                    <div class="heading_container">
+                        <h2>
+                            “ Don’t be afraid of failure. This is the way to succeed.”
+                        </h2>
+                    </div>
+                    <p>
+                        —LeBron James
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- end about section -->
+
+<!-- book section -->
+<section class="book_section layout_padding">
+    <div class="container">
+        
+    </div>
+</section>
+<!-- end book section -->
+
+<!-- client section -->
+
+<section class="client_section layout_padding-bottom">
+    <div class="container">
+        
+    </div>
+</section>
+
+<!-- end client section -->
+{% include 'footerbar.html' %}
+
+<!-- jQery -->
+
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+<!-- Google Map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+</script>
+<!-- End Google Map -->
+<style>
+    section::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 70px;
+        background: linear-gradient(to top,rgb(13, 16, 14), transparent);
+        z-index: 1000;
+
+    }
+
+    .searchbar {
+        margin-bottom: auto;
+        margin-top: auto;
+        height: 60px;
+        background-color: #353b48;
+        border-radius: 30px;
+        padding: 10px;
+    }
+
+    .search_input {
+        color: white;
+        border: 0;
+        outline: 0;
+        background: none;
+        width: 0;
+        caret-color: transparent;
+        line-height: 40px;
+        transition: width 0.4s linear;
+    }
+
+    .searchbar:hover>.search_input {
+        padding: 0 10px;
+        width: 450px;
+        caret-color: red;
+        transition: width 0.4s linear;
+    }
+
+    .searchbar:hover>.search_icon {
+        background: white;
+        color: #e74c3c;
+    }
+
+    .search_icon {
+        height: 40px;
+        width: 40px;
+        float: right;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+    }
+</style>
+
+{% endblock %}
